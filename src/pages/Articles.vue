@@ -92,6 +92,7 @@
 
 <script>
     import axios from "axios";
+    import EventBus from "@/utils/EventBus";
 
     export default {
         name: "Articles",
@@ -140,7 +141,13 @@
                     });
             },
             onWriteArticle() {
-                this.writeArticleModalVisible = true;
+                if(this.currentUser.total_points &&  this.currentUser.total_points >= 10) {
+                    this.writeArticleModalVisible = true;
+                } else {
+                    EventBus.$emit("show-message", {
+                        message: "You need atleast 10 points!"
+                    });
+                }
             },
             onWriteArticleOk() {
                 this.writeArticleModalVisible = false;
@@ -260,11 +267,11 @@
 
 <style scoped>
     .banner-section {
-        background-image: url('~@/assets/articles_banner2.jpg');
-        height: 300px;
+        height: 350px;
         position: relative;
         background-repeat: no-repeat;
         background-size: cover;
+        background-image: url('~@/assets/articles try 4.jpeg');
     }
 
     .post-article-button {
@@ -309,6 +316,7 @@
         height: 205px;
         background-repeat: no-repeat;
         background-position: center;
+        background-size: cover;
     }
 
     .article-info {

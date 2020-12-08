@@ -185,7 +185,10 @@
                                     topic: topic.tag_name
                                 });
                             }
-                        })
+                        });
+                        if(finalTopicList.length > 10) {
+                            finalTopicList.length = 10;
+                        }
                         this.topics = finalTopicList;
                     })
                 
@@ -337,11 +340,12 @@
 
 <style scoped>
     .banner-section {
-        background-image: url('~@/assets/forum.jpg');
-        height: 300px;
+        background-image: url('~@/assets/forum try 1.jpeg');
+        height: 400px;
         position: relative;
         background-repeat: no-repeat;
         background-size: cover;
+        background-position-y: -600px;
     }
 
     .ask-question-button {

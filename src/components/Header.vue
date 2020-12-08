@@ -89,7 +89,8 @@
     .google-signin-button, .signout-button {
         border: none;
         outline: none;
-        color: #da7272;
+        font-weight: bold;
+        color: #fff;
         background: none;
         height: 50px;
         font-size: 16px;

@@ -8,36 +8,39 @@
     <!-- <section class="loader-parent">
       <aside class="loader">Loading...</aside>
     </section> -->
+    <MessageToast/>
   </div>
 </template>
 
 <script>
-import GoogleSignInButton from "vue-google-signin-button-directive";
-import Header from "@/components/Header";
+    import GoogleSignInButton from "vue-google-signin-button-directive";
+    import Header from "@/components/Header";
+    import MessageToast from "@/components/MessageToast.vue";
 
-export default {
-  name: 'App',
-  directives: {
-    GoogleSignInButton
-  },
-  components: {
-    Header
-  },
-  data() {
-    return {
-      clientId: "215252273042-0vtav27rr4bscbtackcqhtqhpmispcd9"
+    export default {
+      name: 'App',
+      directives: {
+        GoogleSignInButton
+      },
+      components: {
+        Header,
+        MessageToast
+      },
+      data() {
+        return {
+          clientId: "215252273042-0vtav27rr4bscbtackcqhtqhpmispcd9"
+        }
+      },
+      methods: {
+        OnGoogleAuthSuccess (idToken) {
+          // Receive the idToken and make your magic with the backend
+          debugger;
+        },
+        OnGoogleAuthFail (error) {
+          console.log(error)
+        }
+      }
     }
-  },
-  methods: {
-    OnGoogleAuthSuccess (idToken) {
-      // Receive the idToken and make your magic with the backend
-      debugger;
-    },
-    OnGoogleAuthFail (error) {
-      console.log(error)
-    }
-  }
-}
 </script>
 
 <style scoped>
@@ -136,6 +139,4 @@ export default {
       transform: rotate(360deg);
     }
   }
-
-
 </style>

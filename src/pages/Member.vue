@@ -121,20 +121,15 @@
                     <a-tab-pane key="4" tab="TAGGED ARTICLES" class="tab-content">
                         <section class="articles-list">
                             <div class="article" v-for="article in taggedArticles" :key="article.id" @click="onArticleClick(article.id)">
-                                <div class="article-image" :style="{'background-image':'url(' + article.banner_image + ')'}"></div>
+                                <div
+                                    class="article-image"
+                                    :style="{
+                                        'background-image':'url(backend/api/v1/fileuploads/download?file_s3_url='+article.banner_image+'&file_name='
+                                    }">
+                                </div>
                                 <div class="article-info">
                                     <div class="article-title heading-5">
                                         {{article.title}}
-                                    </div>
-                                    <div class="article-stats">
-                                        <div class="article-stat">
-                                            {{article.likes===null? "N/A": article.likes}} 
-                                            {{article.likes===1? "VOTE": "VOTES"}}
-                                        </div>
-                                        <div class="article-stat">
-                                            {{article.comment_count}} 
-                                            {{(article.comment_count===1)? "COMMENT": "COMMENTS"}}
-                                        </div>
                                     </div>
                                     <div class="article-author">
                                         Posted by 
@@ -269,8 +264,12 @@
                     });
             },
             fetchTaggedArticles() {
-                this.taggedArticles = this.currentUser.posts;
-                this.taggedArticlesLoaded = true;
+                const userId = this.$route.params.id;
+                axios.get("/backend/api/v1/users/" + userId)
+                    .then(response => {
+                        this.taggedArticles = response.data.users[0].posts;
+                        this.taggedArticlesLoaded = true;
+                    });
             },
             onPortfolioClick(id) {
                 this.$router.push({
@@ -336,7 +335,7 @@
                         for(let doc of documents) {
                             doc.file_label = "Banner Image";
                             updatedBannerImage.push(doc);
-                            self.currentImages = [];
+                            self.currentImage = [];
                         }
                         this.newPortfolio.bannerImage = updatedBannerImage;
                     });
@@ -473,17 +472,17 @@
         padding: 20px 50px 50px 50px;
     }
 
-    /* .profile-page .articles-list, .profile-page .portfolios-list {
+    .profile-page .articles-list, .profile-page .portfolios-list {
         display: grid;
-        grid-template-columns: auto auto auto;
+        grid-template-columns: repeat(2, 1fr);
         row-gap: 30px;
         column-gap: 30px;
-    } */
+    }
 
-    .profile-page .articles-list, .profile-page .portfolios-list {
+    /* .profile-page .articles-list, .profile-page .portfolios-list {
         display: flex;
         flex-wrap: wrap;
-    }
+    } */
 
     .profile-page .article, .profile-page .portfolio {
         box-shadow: 0 0 4px 0 rgba(0,0,0,0.3);
@@ -498,6 +497,7 @@
         height: 205px;
         background-repeat: no-repeat;
         background-position: center;
+        background-size: cover;
     }
 
     .profile-page .article-info, .profile-page .portfolio-info {

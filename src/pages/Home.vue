@@ -203,6 +203,7 @@
 
 <script>
     import axios from "axios";
+    import EventBus from "@/utils/EventBus";
 
     export default {
         name: "Home",
@@ -263,6 +264,13 @@
                 
             },
             onGetStarted() {
+                const loggedInUser = this.$store.state.user;
+                if(!loggedInUser.id) {
+                    EventBus.$emit("show-message", {
+                        message: "Please login to access full features!"
+                    });
+                    return;
+                }
                 this.$router.push({
                     name: "Forum"
                 });
@@ -340,7 +348,7 @@
 
 <style scoped>
     .banner-section {
-        background-image: url('~@/assets/society.jpg');
+        background-image: url('~@/assets/home try 1.jpeg');
         background-position-y: -100px;
         height: 600px;
     }
@@ -350,7 +358,7 @@
         background: #fff;
         position: absolute;
         left: 100px;
-        top: 150px;
+        top: 220px;
         padding: 25px;
         border-radius: 6px;
         box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24); 
@@ -487,6 +495,7 @@
         height: 205px;
         background-repeat: no-repeat;
         background-position: center;
+        background-size: cover;
     }
 
     .article-info {
